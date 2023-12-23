@@ -1,0 +1,205 @@
+example_kill:
+
+How to execute:
+-gcc example_kill.c -o example_kill
+./example_kill X (where X is the iterations)
+
+Use of program: 
+Parallel procession: Coordinates a partitioned task while sending signals (SIGRUS1) to check processes progress
+
+Output of program
+when executed with ‘./example_kill 50’ it does 50 iterations and calls  50/10  = 5 times the signal catching function
+
+In this case the output is:
+
+“The kill() function was called 5 times
+The signal catching function was called 3 times”
+
+Brief explanation
+This program sends the SIGUSR1 signal to itself multiple times using the sendsig function. A signal handler catcher increments a counter sigcount each time it receives the signal. The main function prints the number of times the kill function was called and how many times the signal-catching function was called based on the number of iterations (given in command argument). 
+
+
+
+
+example_pause:
+
+
+How to execute:
+-gcc example_pause.c -o example_pause
+./example_pause X (where X is the seconds for alarm)
+
+Use of program: 
+Timeout: to timeout an operation of larger system
+Scheduling: set alarm to execute task after specific delay
+Testing & Debugging: put delays to simulate real - world situations (e.g. get data)
+
+Output of program
+when executed with ‘./example_kill 6’ it sets alarm in 6 secs
+
+In this case the output is:
+
+“The time before pause is  Fri Dec 23 18:30:00 2023
+Signal catcher called for signal 14
+The time after pause is Fri Dec 23 18:30:06 2023
+
+Brief explanation
+This program sets an alarm for X seconds (command argument) and prints timestamps
+
+
+
+
+
+
+
+example_sleep:
+
+
+How to execute:
+-gcc example_sleep.c -o example_sleep
+./example_sleep
+
+Use of program: 
+Controlled termination of program (use signal handling (ctrl+C) and do cleanup operations
+
+Output of program
+
+“Going to sleep for a second…
+Going to sleep for a second…
+Going to sleep for a second…
+^CCaught signal 2, coming out…”
+
+Brief explanation
+This C program sets up a handler for the Ctrl+C signal (SIGINT). It runs an infinite loop, printing a message and sleeping for a second. When you interrupt it with Ctrl+C, it exits, displaying a message about catching the signal.
+
+
+
+
+
+
+
+immun2ctrlC:
+
+How to execute:
+-gcc immun2ctrlC.c -o immun2ctrlC
+./immun2ctrlC X (where X is the second it will sleep)
+
+Use of program:
+Backup Script: backups should not be interrupted violently. So some delay is added
+
+Output of program
+
+when executed with ‘../immun2ctrlC 60’ 
+
+In this case the output is:
+“Sleeping for: 60 seconds
+^C
+Woke up after sleeping for 60 seconds”
+
+Brief explanation
+This program takes a sleep duration as command  and sets a Ctrl+C signal in this amount of time.
+
+
+
+
+Makefile:
+
+How to execute:
+-make all
+-./””” name of program i want to run”””
+
+Use of program:
+Developing and Testing utilities: when a project involves tools that interact with processes and signals makefile is really helpful by compiling collectively and cleaning the binaries.
+
+Output of program
+
+“gcc -03 exam_1.c -o exam_1
+gcc -03 exam_2.c -o exam_2
+gcc -03 exam_3.c -o exam_3
+gcc -03 exam_4.c -o exam_4
+gcc -03 exam_5.c -o exam_5
+gcc -03 exam_6.c -o exam_6”
+
+Brief explanation
+
+This makefile is designed to compile some c files collectively .The programs cover topics such as interprocess communication, signal handling, and process control. This makefile provides make clean command as well to remove compiled binaries
+
+
+
+
+
+
+
+pipe_1:
+
+How to execute:
+-gcc pipe_1.c -o pipe_1
+./pipe_1 X (where X number of child processes)
+
+Use of program:
+Parallel Task Execution: instead of sequential execution each child process handles a task (useful in data analysis , image processing etc)
+
+Output of program
+
+when executed with ‘./pipe_1 3’ 
+
+In this case the output is:
+“Creating 3 children
+FATHER: I received from children:
+
+Hello from child 1 (pid = 12345)
+Hello from child 2 (pid = 12346)
+Hello from child 3 (pid = 12347)”
+
+Brief explanation
+This program creates multiple child processes using fork() and each child sends greeting message.
+
+
+
+
+
+
+
+
+
+
+pipe_2:
+
+How to execute:
+-gcc pipe_2.c -o pipe_2
+./pipe_2
+
+Use of program:
+Inter Process Communication (with use of pipe) useful when data needs to be exchanged  (for example when a program has multiple stages)
+
+Output of program
+
+“message through pipe” → the message written by the parent and read by child process from the pipe
+
+Brief explanation
+This program demonstrates inter-process communication using pipes and consists of a parent and a child process.
+
+
+
+
+signal:
+
+How to execute:
+-gcc signal.c -o signal
+./signal -X ls (where X the seconds that alarm is set)
+
+Use of program:
+Automated testing: When a test takes too long, in order to not disturb the testing pipeline we integrate such programs. Example: if a test of an endpoint is stuck it gets forcefully terminated 
+
+Output of program
+
+“Executing: ls 
+fileA fileB
+Alarm received: 14
+Child process killed”
+
+Brief explanation
+
+This program forks a child process to execute a specified command. It sets an alarm to limit the execution time. If the child process doesn't finish within the specified time, the program forcefully terminates it. 
+
+
+
